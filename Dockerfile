@@ -12,8 +12,12 @@ RUN     apk add --no-cache \
         && ./configure --enable-static "LDFLAGS=--static" --disable-shared \
         && make
 
+RUN     rm -rf /tmp/*
+
+
 FROM    scratch
 
 COPY    --from=builder /iperf/src/iperf3 /iperf3
+COPY    --from=builder /tmp /tmp
 
 ENTRYPOINT ["/iperf3"]
